@@ -73,6 +73,12 @@ Use this path when you want to run the agent locally with your Tracer account an
 make install
 ```
 
+Recommended: install the local quality gate so every commit runs lint and typecheck first.
+
+```bash
+make install-hooks
+```
+
 ### Configure env variables
 
 1. Copy the example env file:
@@ -158,6 +164,8 @@ opensre onboard
 The onboarding flow writes your provider choice and default model to `~/.opensre/opensre.json`, syncs the active local LLM settings into `.env`, and can also validate and save optional Grafana, Datadog, Slack, AWS, GitHub MCP, and Sentry integration settings for local development.
 
 Because this repo is installed in editable mode via `make install`, `opensre onboard` targets your local checkout while you are coding. If you change `pyproject.toml` entrypoints later, rerun `make install` once to refresh the launcher.
+
+If you enabled hooks with `make install-hooks`, each commit will also run `make lint` and `make typecheck` before Git creates the commit.
 
 ### GitHub MCP setup notes
 

@@ -1,7 +1,7 @@
 -include .env
 export
 
-.PHONY: install onboard test test-full demo local-rca-demo alert-template investigate-alert verify-integrations check-docker check-langgraph check-langsmith-api-key grafana-local-up grafana-local-down grafana-local-seed local-grafana-live langgraph-build langgraph-deploy clean lint format deploy deploy-lambda deploy-prefect deploy-flink destroy destroy-lambda destroy-prefect destroy-flink prefect-local-test simulate-k8s-alert test-k8s-local test-k8s test-k8s-datadog deploy-dd-monitors cleanup-dd-monitors deploy-eks destroy-eks test-k8s-eks datadog-demo crashloop-demo regen-trigger-config test-rca
+.PHONY: install install-hooks onboard test test-full demo local-rca-demo alert-template investigate-alert verify-integrations check-docker check-langgraph check-langsmith-api-key grafana-local-up grafana-local-down grafana-local-seed local-grafana-live langgraph-build langgraph-deploy clean lint format deploy deploy-lambda deploy-prefect deploy-flink destroy destroy-lambda destroy-prefect destroy-flink prefect-local-test simulate-k8s-alert test-k8s-local test-k8s test-k8s-datadog deploy-dd-monitors cleanup-dd-monitors deploy-eks destroy-eks test-k8s-eks datadog-demo crashloop-demo regen-trigger-config test-rca
 
 ifneq ($(wildcard .venv/bin/python),)
 PYTHON = .venv/bin/python
@@ -19,6 +19,9 @@ export PATH := $(USER_BIN):$(PATH)
 install:
 	$(PIP) install $(PIP_INSTALL_FLAGS) -r requirements.txt
 	$(PIP) install $(PIP_INSTALL_FLAGS) -e .
+
+install-hooks:
+	$(PYTHON) -m pre_commit install
 
 # Run the local onboarding flow
 onboard:
@@ -252,7 +255,7 @@ format:
 
 # Type check
 typecheck:
-	mypy app/
+	$(PYTHON) -m mypy app/
 
 # Run all checks
 check: lint typecheck test-full

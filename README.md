@@ -26,6 +26,7 @@
 git clone https://github.com/Tracer-Cloud/open-sre-agent
 cd open-sre-agent
 make install
+make install-hooks
 cp .env.example .env
 # run opensre onboard to configure your local LLM provider
 # and optionally validate/save Grafana, Datadog, Slack, AWS, GitHub MCP, and Sentry integrations
