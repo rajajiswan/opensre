@@ -129,7 +129,8 @@ Tracer integrates with the systems that power modern data platforms.
 ## Contributing
 
 We welcome contributors interested in:
-
+- The creation of Reinforcement Learning Environments for agentic workflows
+- Distributed infrastructure simulations 
 - Data platform integrations
 - Investigation engines
 - Observability tooling
