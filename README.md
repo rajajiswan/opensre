@@ -139,6 +139,13 @@ Thanks goes to these amazing people:
 	<tbody>
 		<tr>
             <td align="center">
+        <a href="https://github.com/rrajan94">
+            <img src="https://avatars.githubusercontent.com/u/25589618?v=4" width="100;" alt="rrajan94"/>
+            <br />
+            <sub><b>rrajan94</b></sub>
+        </a>
+    </td>
+            <td align="center">
         <a href="https://github.com/anandgupta1202">
             <img src="https://avatars.githubusercontent.com/u/39819996?v=4" width="100;" alt="anandgupta1202"/>
             <br />
@@ -173,6 +180,8 @@ Thanks goes to these amazing people:
             <sub><b>zeel2104</b></sub>
         </a>
     </td>
+		</tr>
+		<tr>
             <td align="center">
         <a href="https://github.com/paultracer">
             <img src="https://avatars.githubusercontent.com/u/214484440?v=4" width="100;" alt="paultracer"/>
@@ -180,8 +189,6 @@ Thanks goes to these amazing people:
             <sub><b>paultracer</b></sub>
         </a>
     </td>
-		</tr>
-		<tr>
             <td align="center">
         <a href="https://github.com/kylie-tracer">
             <img src="https://avatars.githubusercontent.com/u/256781109?v=4" width="100;" alt="kylie-tracer"/>
