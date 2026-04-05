@@ -1,4 +1,10 @@
-"""AgentState TypedDict and its Pydantic validator model."""
+"""AgentState TypedDict and its Pydantic validator model.
+
+WARNING — drift risk: AgentState (TypedDict) and AgentStateModel (Pydantic) must
+stay in sync.  Whenever you add or remove a field in one, do the same in the other.
+The test in tests/app/test_agent_state_sync.py asserts that both definitions share
+the same set of keys and will fail if they diverge.
+"""
 
 from __future__ import annotations
 
