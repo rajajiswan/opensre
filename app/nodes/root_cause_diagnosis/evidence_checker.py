@@ -28,6 +28,7 @@ _INVESTIGATED_EVIDENCE_KEYS = frozenset({
     "eks_deployments",
     "eks_node_health",
     "eks_pod_logs",
+    "eks_deployment_status",
 })
 
 
@@ -68,6 +69,9 @@ def check_evidence_availability(
         or evidence.get("eks_pods") is not None
         or evidence.get("eks_events") is not None
         or evidence.get("eks_node_health") is not None
+        or evidence.get("eks_deployments") is not None
+        or evidence.get("eks_pod_logs")
+        or evidence.get("eks_deployment_status")
     )
 
     # Check for evidence in alert annotations or raw text
