@@ -572,6 +572,13 @@ Thanks goes to these amazing people:
         </a>
     </td>
             <td align="center">
+        <a href="https://github.com/darthwade">
+            <img src="https://avatars.githubusercontent.com/u/2220776?v=4" width="100" alt="darthwade"/>
+            <br />
+            <sub><b>darthwade</b></sub>
+        </a>
+    </td>
+            <td align="center">
         <a href="https://github.com/aniruddhaadak80">
             <img src="https://avatars.githubusercontent.com/u/127435065?v=4" width="100" alt="aniruddhaadak80"/>
             <br />
