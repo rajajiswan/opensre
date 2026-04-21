@@ -85,84 +85,15 @@ class Graph:
         return self
 
     def _validate(self) -> None:
-        """Ensure all dependency references exist and the graph is acyclic."""
-        for node in self._nodes.values():
-            for dep in node.depends_on:
-                if dep not in self._nodes:
-                    raise ValueError(
-                        f"Node '{node.node_id}' depends on unknown node '{dep}'"
-                    )
-        # Simple cycle detection via DFS
-        visited: Set[str] = set()
-        rec_stack: Set[str] = set()
+        """Ensure all dependency references exist and the graph is acyclic.
 
-        def _dfs(nid: str) -> None:
-            visited.add(nid)
-            rec_stack.add(nid)
-            for dep in self._nodes[nid].depends_on:
-                if dep not in visited:
-                    _dfs(dep)
-                elif dep in rec_stack:
-                    raise ValueError(f"Cycle detected involving node '{dep}'")
-            rec_stack.discard(nid)
-
-        for nid in self._nodes:
-            if nid not in visited:
-                _dfs(nid)
-
-    def _topological_order(self) -> List[str]:
-        """Return node IDs in a valid execution order (Kahn's algorithm)."""
-        in_degree: Dict[str, int] = {nid: 0 for nid in self._nodes}
-        for node in self._nodes.values():
-            for dep in node.depends_on:
-                in_degree[node.node_id] += 1
-
-        queue = [nid for nid, deg in in_degree.items() if deg == 0]
-        order: List[str] = []
-
-        while queue:
-            current = queue.pop(0)
-            order.append(current)
-            for node in self._nodes.values():
-                if current in node.depends_on:
-                    in_degree[node.node_id] -= 1
-                    if in_degree[node.node_id] == 0:
-                        queue.append(node.node_id)
-
-        return order
-
-    # ------------------------------------------------------------------
-    # Execution
-    # ------------------------------------------------------------------
-
-    def execute(self, context: Optional[Dict[str, Any]] = None) -> Dict[str, NodeResult]:
-        """Run all nodes in dependency order.
-
-        Args:
-            context: Shared mutable context passed to every node handler.
-
-        Returns:
-            Mapping of node_id -> NodeResult for every executed node.
+        Raises ValueError if an unknown dependency is referenced or if a
+        cycle is detected via DFS. Checked automatically before execution.
         """
-        self._validate()
-        ctx: Dict[str, Any] = context or {}
-        results: Dict[str, NodeResult] = {}
-
-        for node_id in self._topological_order():
-            node = self._nodes[node_id]
-            # Skip node if any dependency failed
-            failed_deps = [d for d in node.depends_on if not results.get(d, NodeResult(d, True))]
-            if failed_deps:
-                logger.warning(
-                    "Skipping node '%s' — failed dependencies: %s", node_id, failed_deps
-                )
-                results[node_id] = NodeResult(
-                    node_id=node_id,
-                    success=False,
-                    error=f"Skipped due to failed dependencies: {failed_deps}",
-                )
-                continue
-
-            results[node_id] = node.run(ctx)
-
-        return results
+        # Verify every declared dependency actually exists in the graph
+        for node in self._nodes.values():
+            for dep_id in node.depends_on:
+                if dep_id not in self._nodes:
+                    raise ValueError(
+                        f"Node '{node.node_id}' depends on unknown node '{dep_id}'"
+                    )
