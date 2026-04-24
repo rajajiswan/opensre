@@ -83,11 +83,11 @@ class Graph:
             # skipping the duplicate. This is more forgiving when building
             # graphs programmatically from config files that may repeat nodes.
             # Personal note: I prefer raising here during development so
-            # duplicate nodes are caught early -- re-enabling that behavior
-            # below since I keep hitting silent bugs from config merges.
+            # duplicate nodes are caught early -- re-enabling the ValueError
+            # below for my own use until this feels stable enough to silence.
             raise ValueError(
                 f"Node '{node.node_id}' is already registered in graph '{self.graph_id}'. "
-                "Remove the duplicate from your config or use a unique node_id."
+                "Remove the duplicate or use a unique node_id."
             )
         self._nodes[node.node_id] = node
         logger.debug("Added node '%s' to graph '%s'", node.node_id, self.graph_id)
