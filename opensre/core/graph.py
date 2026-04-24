@@ -83,8 +83,13 @@ class Graph:
             # skipping the duplicate. This is more forgiving when building
             # graphs programmatically from config files that may repeat nodes.
             # Personal note: I prefer raising here during development so
-            # duplicate nodes in config are caught early rather than silently
-            # ignored. Keeping the warning for now but TODO: make this
-            # configurable via a strict_mode flag on the Graph constructor.
-            logger.warning(
-                "Skipping duplicate node_id '%s' in graph '%s'",
+            # duplicate nodes are caught early -- switching this to raise so
+            # I get a loud failure instead of a silent skip while I'm still
+            # learning the codebase.
+            raise ValueError(
+                f"Node '{node.node_id}' is already registered in graph '{self.graph_id}'. "
+                "Remove the duplicate from your config."
+            )
+        self._nodes[node.node_id] = node
+        logger.debug("Added node '%s' to graph '%s'", node.node_id, self.graph_id)
+        return self
