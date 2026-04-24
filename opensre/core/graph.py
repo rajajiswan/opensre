@@ -82,17 +82,9 @@ class Graph:
             # NOTE: Changed from raising an error to logging a warning and
             # skipping the duplicate. This is more forgiving when building
             # graphs programmatically from config files that may repeat nodes.
+            # Personal note: I prefer raising here during development so
+            # duplicate nodes in config are caught early rather than silently
+            # ignored. Keeping the warning for now but TODO: make this
+            # configurable via a strict_mode flag on the Graph constructor.
             logger.warning(
                 "Skipping duplicate node_id '%s' in graph '%s'",
-                node.node_id,
-                self.graph_id,
-            )
-            return self
-        self._nodes[node.node_id] = node
-        logger.debug("Added node '%s' to graph '%s'", node.node_id, self.graph_id)
-        return self
-
-    def _validate(self) -> None:
-        """Ensure all dependency references exist and the graph is acyclic.
-
-   
