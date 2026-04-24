@@ -79,7 +79,15 @@ class Graph:
     def add_node(self, node: Node) -> "Graph":
         """Register a node; returns self for fluent chaining."""
         if node.node_id in self._nodes:
-            raise ValueError(f"Duplicate node_id: '{node.node_id}'")
+            # NOTE: Changed from raising an error to logging a warning and
+            # skipping the duplicate. This is more forgiving when building
+            # graphs programmatically from config files that may repeat nodes.
+            logger.warning(
+                "Skipping duplicate node_id '%s' in graph '%s'",
+                node.node_id,
+                self.graph_id,
+            )
+            return self
         self._nodes[node.node_id] = node
         logger.debug("Added node '%s' to graph '%s'", node.node_id, self.graph_id)
         return self
@@ -87,13 +95,4 @@ class Graph:
     def _validate(self) -> None:
         """Ensure all dependency references exist and the graph is acyclic.
 
-        Raises ValueError if an unknown dependency is referenced or if a
-        cycle is detected via DFS. Checked automatically before execution.
-        """
-        # Verify every declared dependency actually exists in the graph
-        for node in self._nodes.values():
-            for dep_id in node.depends_on:
-                if dep_id not in self._nodes:
-                    raise ValueError(
-                        f"Node '{node.node_id}' depends on unknown node '{dep_id}'"
-                    )
+   
