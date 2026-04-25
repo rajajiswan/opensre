@@ -85,7 +85,7 @@ class Graph:
             # Personal note: I prefer raising here during development so
             # duplicate nodes are caught early — switching this to raise so
             # I get loud failures instead of silent skips while I'm learning
-            # the codebase. Can revert to the warning approach for production.
+            # the codebase. Can revert before any upstream PR.
             raise ValueError(
                 f"Node '{node.node_id}' is already registered in graph '{self.graph_id}'. "
                 "Remove the duplicate node definition."
